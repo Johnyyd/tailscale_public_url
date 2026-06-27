@@ -13,7 +13,7 @@ Tạo public URL thông qua Tailscale Funnel để truy cập service trên máy
 1. Đăng nhập https://login.tailscale.com
 2. Vào **Settings** > **Keys**
 3. Nhấn **Generate auth key**
-4. Đánh dấu **Reusable** (đùng cho nhiều container)
+4. Đánh dấu **Reusable** (dùng cho nhiều container)
 5. Copy key (`tskey-auth-...`)
 
 ## Bước 2: Cấu hình Auth Key
