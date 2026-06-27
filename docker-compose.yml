@@ -1,0 +1,73 @@
+version: '3.8'
+
+x-tailscale-common: &tailscale-common
+  image: tailscale/tailscale:latest
+  network_mode: host
+  environment: &tailscale-env
+    # Lấy auth key từ: https://login.tailscale.com/admin/settings/keys
+    - TS_AUTHKEY=tskey-auth-XXXXXXXXXXXXX
+    # Thư mục state - không cần thay đổi
+    - TS_STATE_DIR=/var/lib/tailscale
+    # Chế độ userspace - chạy không cần quyền root
+    - TS_USERSPACE=true
+    # Tắt DNS Tailscale để không ảnh hưởng host DNS
+    - TS_ACCEPT_DNS=false
+  restart: unless-stopped
+
+services:
+  # ============================================================
+  # Tunnel 1: Web Server (ví dụ: Nginx/Apache trên port 80)
+  # ============================================================
+  tunnel-web:
+    <<: *tailscale-common
+    container_name: tunnel-web
+    hostname: web
+    volumes:
+      - ./tunnels/web:/var/lib/tailscale
+
+  # ============================================================
+  # Tunnel 2: Application (ví dụ: Node.js/Python app trên port 3000)
+  # ============================================================
+  tunnel-app:
+    <<: *tailscale-common
+    container_name: tunnel-app
+    hostname: app
+    volumes:
+      - ./tunnels/app:/var/lib/tailscale
+
+  # ============================================================
+  # Tunnel 3: Database Admin (ví dụ: phpMyAdmin/pgAdmin trên port 8080)
+  # ============================================================
+  tunnel-db:
+    <<: *tailscale-common
+    container_name: tunnel-db
+    hostname: db
+    volumes:
+      - ./tunnels/db:/var/lib/tailscale
+
+  # ============================================================
+  # Tunnel 4: Dashboard (ví dụ: Grafana/Home Assistant trên port 3001)
+  # ============================================================
+  tunnel-dashboard:
+    <<: *tailscale-common
+    container_name: tunnel-dashboard
+    hostname: dashboard
+    volumes:
+      - ./tunnels/dashboard:/var/lib/tailscale
+
+  # ============================================================
+  # Tunnel 5: API Gateway (ví dụ: REST API trên port 8000)
+  # ============================================================
+  tunnel-api:
+    <<: *tailscale-common
+    container_name: tunnel-api
+    hostname: api
+    volumes:
+      - ./tunnels/api:/var/lib/tailscale
+
+  # ============================================================
+  # Thêm tunnel mới: Copy một block và thay đổi:
+  #   - container_name: tunnel-<tên_mới>
+  #   - hostname: <tên_mới>
+  #   - volume: ./tunnels/<tên_mới>
+  # ============================================================
