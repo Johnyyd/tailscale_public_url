@@ -174,14 +174,6 @@ docker exec tunnel-nextjs tailscale funnel --bg http://100.x.x.x:3000
 docker exec tunnel-ha tailscale funnel --bg http://100.x.x.x:8123
 ```
 
-#### Bulk Setup Script
-
-Use `setup-all.sh` to create funnels for all tunnels at once:
-
-```bash
-./setup-all.sh 100.x.x.x
-```
-
 ### Common Commands
 
 ```bash
@@ -403,14 +395,6 @@ docker compose up -d
 docker exec tunnel-nginx tailscale funnel --bg http://100.x.x.x:80
 docker exec tunnel-nextjs tailscale funnel --bg http://100.x.x.x:3000
 docker exec tunnel-ha tailscale funnel --bg http://100.x.x.x:8123
-```
-
-#### Script setup hàng loạt
-
-Dùng `setup-all.sh` để tạo funnel cho tất cả tunnel cùng lúc:
-
-```bash
-./setup-all.sh 100.x.x.x
 ```
 
 ### Lệnh thường dùng
